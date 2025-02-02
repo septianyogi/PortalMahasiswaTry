@@ -22,6 +22,16 @@ class KelasController extends Controller
         }
     }
 
+    public function getAllClass() {
+        try {
+            $classes = Kelas::with('dosen')->get();
+
+            return $this->responseOk($classes, 'Data kelas berhasil diambil');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
 
     public function create(Request $request) {
         $request->validate([

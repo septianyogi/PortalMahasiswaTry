@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('class_attendeds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('class_id')->references('id')->on('kelas');
-            $table->foreignId('student_id')->references('npm')->on('students');
+            $table->bigInteger('student_id');
+            $table->foreign('student_id')->references('npm')->on('students');
             $table->integer('attendance')->nullable();
             $table->integer('absent')->nullable();
             $table->integer('assignment')->nullable();

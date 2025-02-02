@@ -16,7 +16,8 @@ Route::middleware('debugBar')->group(function() {
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/dosen/class/get', [KelasController::class, 'getClassByDosen']);
+Route::get('class/get', [KelasController::class, 'getAllClass']);
+
 
 Route::middleware(['auth:sanctum', 'is_admin'])->group(function() {
     Route::post('/register/admin', [AuthController::class, 'register']);
@@ -51,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function() {
     //Dosen
     Route::middleware('is_dosen')->group(function() {
         Route::get('/dosen/class/get', [KelasController::class, 'getClassByDosen']);
+        Route::get('/dosen/class/attendance/get/{class_code}', [ClassAttendedController::class, 'getclassAttended']);
 
         Route::post('/dosen/attendance/create/{class_id}', [AttendanceController::class, 'dosenCreateAttendance']);
 

@@ -12,7 +12,7 @@ class FakultasController extends Controller
     public function create(Request $request) {
         try {
             $fakultas = DB::transaction(function () use ($request) {
-                return Fakultas::create([
+                return Fakultas::create(attributes: [
                     'code' => $request->code,
                     'name' => $request->name,
                 ]);

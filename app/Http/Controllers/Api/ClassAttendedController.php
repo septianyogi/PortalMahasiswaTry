@@ -8,21 +8,42 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ClassAttendedController extends Controller
-{
+{   
+    public function getclassAttended($class_code) {
+        try {
+            $classAttended = ClassAttended::where('class_code', $class_code)->get();
+
+            return $this->responseOk($classAttended, 'Data kelas berhasil diambil');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
     public function studentGetClasses(Request $request) {
-        $student_id = Auth::user()->id_number;
+        $student_npm = Auth::user()->id_number;
+
+        try {
+            $classes = ClassAttended::with('class')->where('student_id', $student_npm)->get();
+
+            return $this->responseOk($classes, 'Data kelas berhasil diambil');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+
     }
 
     public function create(Request $request){
         $request->validate([
             'student_id' => 'required',
-            'class_id' => 'required',
+            'npm' => 'required',
+            'name' => 'required',
         ]);
 
         try {
             $classAttended = ClassAttended::create([
                 'class_id' => $request->class_id,
-                'student_id' => $request->student_id,
+                'student_id' => $request->npm,
+                'student_name' => $request->name,
                 'attendance' => 0,
                 'absent' => 0
             ]);
@@ -38,7 +59,8 @@ class ClassAttendedController extends Controller
             $classAttended = ClassAttended::find($id);
             $classAttended->update([
                 'class_id' => $request->class_id,
-                'student_id' => $request->student_id,
+                'student_id' => $request->npm,
+                'student_name' => $request->student_name,
                 'attendance' => $request->attendance,
                 'absent' => $request->absent,
                 'assignment' => $request->assignment,

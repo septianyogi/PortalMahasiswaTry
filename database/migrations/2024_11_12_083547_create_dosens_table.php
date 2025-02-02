@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dosens', function (Blueprint $table) {
-            $table->unsignedBigInteger('nip');
-            $table->primary('nip');
+            $table->id();
+            $table->bigInteger('nip')->unique();
             $table->string('name');
             $table->string('dob');
             $table->string('email');

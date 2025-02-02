@@ -11,7 +11,8 @@ class Kelas extends Model
         'jurusan_id',
         'name',
         'date',
-        'time',
+        'time_start',
+        'time_end',
         'dosen_id',
         'quota',
         'room',
@@ -19,7 +20,17 @@ class Kelas extends Model
         'attendance',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($kelas) {
+            $kelas->code = date('dmy').'-'.$kelas->jurusan_id.'-'.date('Hi');
+        });
+    }
+
     public function dosen() {
         return $this->belongsTo(Dosen::class, 'dosen_id', 'nip');
     }
+
 }

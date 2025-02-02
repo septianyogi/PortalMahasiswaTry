@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('date');
             $table->string('time');
-            $table->foreignId('dosen_id')->references('nip')->on('dosens');
+            $table->bigInteger('dosen_id');
+            $table->foreign('dosen_id')->references('nip')->on('dosens');
             $table->integer('quota');
             $table->string('room')->nullable();
             $table->string('semester');

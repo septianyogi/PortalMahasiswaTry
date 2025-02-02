@@ -12,12 +12,12 @@ class AttendanceController extends Controller
     public function studentCreateAttendance(Request $request) {
         try {
             $request->validate([
-                'student_id' => 'required',
+                'npm' => 'required',
                 'kelas_id' => 'required',
             ]);
 
             $attendance = Attendance::create([
-                'student_id' => $request->student_id,
+                'student_id' => $request->npm,
                 'kelas_id' => $request->kelas_id,
                 'status' => 'hadir'
             ]);
@@ -36,7 +36,7 @@ class AttendanceController extends Controller
         try {
             foreach($attendances as $attendance){
                 Validator::make($attendance, [
-                    'student_id' => 'required',
+                    'npm' => 'required',
                     'kelas_id' => 'required',
                 ]);
                 
@@ -46,7 +46,7 @@ class AttendanceController extends Controller
                     ]);
                 } else {
                     Attendance::create([
-                        'student_id' => $attendance['student_id'],
+                        'student_id' => $attendance['npm'],
                         'kelas_id' => $attendance['kelas_id'],
                         'status' => $attendance['status']
                     ]);
