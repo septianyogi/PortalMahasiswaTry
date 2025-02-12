@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('jurusan_id')->references('id')->on('jurusans');
             $table->string('name');
             $table->string('date');
-            $table->string('time');
+            $table->time('time_start');
+            $table->time('time_end');
             $table->bigInteger('dosen_id');
             $table->foreign('dosen_id')->references('nip')->on('dosens');
             $table->integer('quota');

@@ -26,5 +26,15 @@ class Student extends Model
         'alamat',
         'pembayaran'
     ];
+
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class);
+    }
+
+    public function fakultas()
+    {
+        return $this->belongsTo(Fakultas::class);
+    }
     
 }

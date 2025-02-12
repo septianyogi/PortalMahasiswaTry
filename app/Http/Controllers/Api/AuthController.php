@@ -23,19 +23,12 @@ class AuthController extends Controller
         if($user || Hash::check($request->password, $user->password)){
             $role = $user->role;
             
-            if($role == 'student') {
-                $loggedIn = Student::where('email', $user->email)->first();
-            } if($role == 'dosen') {
-                $loggedIn = Dosen::where('email', $user->email)->first();
-            } else {
-                $loggedIn = $user;
-            }
             $token = $user->createtoken('user login')->plainTextToken;
 
 
-            return $this->responseOk($this->respondWithToken($loggedIn, $role, $token), 'login success');
+            return $this->responseOk($this->respondWithToken($user, $role, $token), 'login success');
         } else {
-            return $this->responseError('email or password incorrect');
+            return $this->responseError('email or password incorrect', );
         }
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode());

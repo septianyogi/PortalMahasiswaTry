@@ -18,7 +18,10 @@ return new class extends Migration
             $table->foreign('student_id')->references('npm')->on('students');
             $table->integer('attendance')->nullable();
             $table->integer('absent')->nullable();
-            $table->integer('assignment')->nullable();
+            $table->integer('assignment_1')->nullable();
+            $table->integer('assignment_2')->nullable();
+            $table->integer('assignment_3')->nullable();
+            $table->integer('assignment_4')->nullable();
             $table->integer('mid_exam')->nullable();
             $table->integer('final_exam')->nullable();
             $table->string('final_score')->nullable();
