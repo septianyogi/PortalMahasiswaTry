@@ -79,15 +79,15 @@ class ClassAttendedResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('class_id')
-                ->label('Pilih Kelas')
-                ->options(ClassAttended::all()->pluck('class.name', 'class_id'))
-                ->query(function(Builder $query, $class_id){
-                    if($class_id){
-                        return $query->where('class_id', $class_id);
-                    }
-                    return $query;
-                }),
+                // SelectFilter::make('class_id')
+                // ->label('Pilih Kelas')
+                // ->options(ClassAttended::all()->pluck('class.name', 'class_id'))
+                // ->query(function(Builder $query, $class_id){
+                //     if($class_id){
+                //         return $query->where('class_id', $class_id);
+                //     }
+                //     return $query;
+                // }),
             ])
             ->actions([
             ])

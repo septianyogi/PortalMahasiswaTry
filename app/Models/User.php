@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+        'pin'
     ];
 
     /**
@@ -47,5 +48,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'id_number', 'npm');
+    }
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'id_number', 'nip');
     }
 }

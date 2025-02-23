@@ -25,8 +25,10 @@ class AuthController extends Controller
             
             $token = $user->createtoken('user login')->plainTextToken;
 
+            $student = Student::where('npm', $user->id_number)->first();
+            $dosen = Dosen::where('nip', $user->id_number)->first();
 
-            return $this->responseOk($this->respondWithToken($user, $role, $token), 'login success');
+            return $this->responseOk($this->respondWithToken($user, $student, $dosen, $role, $token), 'login success');
         } else {
             return $this->responseError('email or password incorrect', );
         }
@@ -65,10 +67,13 @@ class AuthController extends Controller
         return $this->responseOk(null, 'logout success');
     }
 
-    protected function respondWithToken($user,$role, $token)
+    protected function respondWithToken($user, $student, $dosen, $role, $token)
     {
         return [
+
             'user' => $user,
+            'student' => $student,
+            'dosen' => $dosen,
             'role' => $role,
             'token' => $token
         ];

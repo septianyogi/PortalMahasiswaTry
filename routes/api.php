@@ -39,27 +39,24 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function() {
 
 
 Route::middleware('auth:sanctum')->group(function() {
-
-
     //Student
-    Route::middleware('is_student')->group(function() {
-        Route::delete('/student/class/delete/{id}', [ClassAttendedController::class, 'destroy']);
-        
-        Route::post('/student/attendance/create', [AttendanceController::class, 'studentCreateAttendance']);
-    });
+    Route::get('/student/class/get', [ClassAttendedController::class, 'studentGetClasses']);
+    Route::delete('/student/class/delete/{id}', [ClassAttendedController::class, 'destroy']);
+    
+    Route::post('/student/attendance/create', [AttendanceController::class, 'studentCreateAttendance']);
+
+    
 
 
     //Dosen
-    Route::middleware('is_dosen')->group(function() {
-        Route::get('/dosen/class/get', [KelasController::class, 'getClassByDosen']);
-        Route::get('/dosen/class/attendance/get/{class_code}', [ClassAttendedController::class, 'getclassAttended']);
+    Route::get('/dosen/class/get', [KelasController::class, 'getClassByDosen']);
+    Route::get('/dosen/class/attendance/get/{class_code}', [ClassAttendedController::class, 'getclassAttended']);
 
-        Route::post('/dosen/attendance/create/{class_id}', [AttendanceController::class, 'dosenCreateAttendance']);
+    Route::post('/dosen/attendance/create/{class_id}', [AttendanceController::class, 'dosenCreateAttendance']);
 
-        Route::patch('/class/grade/update/{id}', [ClassAttendedController::class, 'update']);
-    });
+    Route::patch('/class/grade/update/{id}', [ClassAttendedController::class, 'update']);
 
-
+    
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 

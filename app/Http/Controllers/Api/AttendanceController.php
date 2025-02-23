@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,14 +14,18 @@ class AttendanceController extends Controller
         try {
             $request->validate([
                 'npm' => 'required',
-                'kelas_id' => 'required',
+                'attendance' => 'required',
             ]);
 
-            $attendance = Attendance::create([
-                'student_id' => $request->npm,
-                'kelas_id' => $request->kelas_id,
-                'status' => 'hadir'
-            ]);
+            $class = Kelas::where('attendance', $request->attendance)->first();
+
+            if ($class != null) {
+                $attendance = Attendance::create([
+                    'student_id' => $request->npm,
+                    'kelas_id' => $class->id,
+                    'status' => 'hadir'
+                ]);
+            }
 
             return $this->responseOk($attendance, 'Attendance has been added');
         } catch (\Throwable $th) {
