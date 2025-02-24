@@ -4,6 +4,7 @@ use App\Http\Middleware\DebugbarHeaders;
 use App\Http\Middleware\is_admin;
 use App\Http\Middleware\is_dosen;
 use App\Http\Middleware\is_student;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -25,4 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->booted(function ($app) {
+        // Tambahkan scheduler
+        $schedule = $app->make(Schedule::class);
+
+        // Menjalankan command 'attendance:cleanup' setiap 5 menit
+        $schedule->command('attendance:cleanup')->everyTwoMinutes();
+    })
+    ->create();

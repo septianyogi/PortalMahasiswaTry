@@ -47,7 +47,7 @@ class KelasController extends Controller
 
         try {
             $kelas = Kelas::create([
-                'code' => Carbon::now()->format('dmy').'-'.$request->jurusan_id.'-'.Carbon::now()->format('Hi'),
+                'code' => Carbon::now()->format('dmy').'-'.$request->jurusan_id.'-'.Carbon::now()->format('His'),
                 'jurusan_id' => $request->jurusan_id,
                 'name' => $request->name,
                 'date' => $request->date,

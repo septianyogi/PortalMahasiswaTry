@@ -18,6 +18,7 @@ class Kelas extends Model
         'room',
         'semester',
         'attendance',
+        'expires_at'
     ];
 
     protected static function boot()

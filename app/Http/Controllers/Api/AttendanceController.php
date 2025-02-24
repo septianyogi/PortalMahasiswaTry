@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
 {
+    public function dosenCreateCode($class_id) {
+        try {
+            $class = Kelas::where('id', $class_id)->first();
+            $code = str()->random(40);
+            $expires_at = now()->addMinutes(5);
+            $class->update([
+                'attendance' => $code,
+                'expires_at' => $expires_at
+            ]);
+            
+
+            return $this->responseOk($class, 'Attendance code has been created');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        } 
+    }
     public function studentCreateAttendance(Request $request) {
         try {
             $request->validate([
