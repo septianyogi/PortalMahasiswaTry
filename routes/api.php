@@ -17,7 +17,7 @@ Route::middleware('debugBar')->group(function() {
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('class/get', [KelasController::class, 'getAllClass']);
-Route::patch('/dosen/attendance/createcode/{class_id}', [AttendanceController::class, 'dosenCreateCode']);
+
 
 
 Route::middleware(['auth:sanctum', 'is_admin'])->group(function() {
@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/dosen/class/get', [KelasController::class, 'getClassByDosen']);
     Route::get('/dosen/class/attendance/get/{class_code}', [ClassAttendedController::class, 'getclassAttended']);
 
+    Route::patch('/dosen/attendance/createcode/{class_id}', [AttendanceController::class, 'dosenCreateCode']);
     Route::post('/dosen/attendance/create/{class_id}', [AttendanceController::class, 'dosenCreateAttendance']);
     Route::patch('/dosen/attendance/create/code/{class_id}', [AttendanceController::class, 'dosenCreateCode']);
 

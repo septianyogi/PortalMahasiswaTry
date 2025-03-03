@@ -14,7 +14,7 @@ class AttendanceController extends Controller
         try {
             $class = Kelas::where('id', $class_id)->first();
             $code = str()->random(40);
-            $expires_at = now()->addMinutes(5);
+            $expires_at = now()->addMinutes(2);
             $class->update([
                 'attendance' => $code,
                 'expires_at' => $expires_at
@@ -36,11 +36,13 @@ class AttendanceController extends Controller
             $class = Kelas::where('attendance', $request->attendance)->first();
 
             if ($class != null) {
-                $attendance = Attendance::create([
+                Attendance::create([
                     'student_id' => $request->npm,
                     'kelas_id' => $class->id,
                     'status' => 'hadir'
                 ]);
+
+                $attendance = Attendance::where('student_id', $request->npm)->where('kelas_id', $class->id)->get();
             }
 
             return $this->responseOk($attendance, 'Attendance has been added');
