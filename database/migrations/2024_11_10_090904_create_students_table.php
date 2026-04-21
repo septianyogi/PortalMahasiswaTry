@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->bigInteger('npm')->unique();
             $table->string('name');
             $table->string('email');
-            $table->foreignId('jurusan')->references('id')->on('jurusans');
-            $table->foreignId('fakultas')->references('id')->on('fakultas');
+            $table->foreignId('jurusan_id')->references('id')->on('jurusans');
+            $table->foreignId('fakultas_id')->references('id')->on('fakultas');
             $table->string('semester');
             $table->string('dob')->nullable();
             $table->string('country')->nullable();
@@ -28,6 +29,10 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->boolean('pembayaran')->default(false);
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('jurusan_id');
+            $table->index('fakultas_id');
         });
     }
 

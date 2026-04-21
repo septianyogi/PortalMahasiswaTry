@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dosen extends Model
 {
     protected $fillable=[
+        'user_id',
         'nip',
         'name',
         'dob',
@@ -14,6 +15,6 @@ class Dosen extends Model
     ];
 
     public function classes(){
-        return $this->hasMany(Kelas::class, 'dosen_id', 'nip');
+        return $this->hasMany(Classes::class, 'dosen_id', 'nip');
     }
 }

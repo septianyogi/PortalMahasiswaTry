@@ -6,26 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassAttended extends Model
 {
+    protected $table = 'class_attendeds';
 
     protected $fillable = [
-        'student_id',
-        'student_name',
         'class_id',
+        'student_id',
+        'verified_at',
         'attendance',
         'absent',
-        'assignment',
         'mid_exam',
         'final_exam',
-        'final_score'
+        'final_score',
     ];
-
-    public function student()
-    {
-        return $this->belongsTo(Student::class, 'student_id', 'npm');
-    }
 
     public function class()
     {
-        return $this->belongsTo(Kelas::class, 'class_id', 'id');
+        return $this->belongsTo(Classes::class, 'class_id');
     }
 }

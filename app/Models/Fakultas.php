@@ -10,4 +10,5 @@ class Fakultas extends Model
         'code',
         'name'
     ];
+    
 }

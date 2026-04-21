@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kelas', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('code');
             $table->foreignId('jurusan_id')->references('id')->on('jurusans');
@@ -19,13 +19,15 @@ return new class extends Migration
             $table->string('date');
             $table->time('time_start');
             $table->time('time_end');
-            $table->bigInteger('dosen_id');
-            $table->foreign('dosen_id')->references('nip')->on('dosens');
+            $table->foreignId('dosen_id')->references('id')->on('dosens');
             $table->integer('quota');
             $table->string('room')->nullable();
             $table->string('semester');
-            $table->string('attendance')->nullable();
             $table->timestamps();
+
+            $table->index('jurusan_id');
+            $table->index('dosen_id');
+            $table->index(['jurusan_id', 'semester']);
         });
     }
 
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kelas');
+        Schema::dropIfExists('classes');
     }
 };

@@ -11,6 +11,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable =[
+        'user_id',
         'npm',
         'name',
         'email',
@@ -26,6 +27,15 @@ class Student extends Model
         'alamat',
         'pembayaran'
     ];
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'student_id', 'id');
+    }
+    public function classAttended()
+    {
+        return $this->hasMany(ClassSession::class, 'student_id', 'id');
+    }
 
     public function jurusan()
     {

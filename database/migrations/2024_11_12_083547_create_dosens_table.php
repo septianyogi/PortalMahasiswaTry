@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('dosens', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+
             $table->bigInteger('nip')->unique();
             $table->string('name');
-            $table->string('dob');
-            $table->string('email');
+            $table->string('email')->unique();
+            $table->date('dob')->nullable();
             $table->timestamps();
+
+               $table->index('user_id');
         });
     }
 
