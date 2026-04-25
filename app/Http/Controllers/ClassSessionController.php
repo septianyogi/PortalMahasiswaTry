@@ -31,7 +31,7 @@ class ClassSessionController extends Controller
                 ->where('week', $data['week'])
                 ->first();
             if($session){
-                $classSession = $this->classSessionService->updateClassSession($data);
+                $classSession = $this->classSessionService->updateClassSession($data, $session);
                 return $this->responseOk($classSession, 'Class session updated successfully');
             }else{
                 $classSession = $this->classSessionService->createClassSession($data);

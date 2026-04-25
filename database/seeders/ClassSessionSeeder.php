@@ -22,7 +22,7 @@ class ClassSessionSeeder extends Seeder
                 ClassSession::create([
                     'class_id' => $class->id,
                     'week' => $week,
-                    'date' => now()->addWeeks($week),
+                    'code_duration' => 20,
                     'qr_token' => Str::random(40),
                     'expired_at' => now()->addMinutes(10),
                     'is_active' => true,

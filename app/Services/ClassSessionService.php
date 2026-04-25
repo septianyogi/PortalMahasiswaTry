@@ -25,8 +25,16 @@ class ClassSessionService
         return $classSession;
     }
 
-    public function updateClassSession(array $data)
+    public function updateClassSession(array $data, ClassSession $session)
     {
-
+        $qrCode = $session->qr_token ?? str()->random(20);
+        $expiredAt = now()->addMinutes($data['code_duration']);
+        $session->update([
+            'code_duration' => $data['code_duration'],
+            'qr_token' => $qrCode,
+            'expired_at' => $expiredAt,
+            'is_active' => true,
+        ]);
+        return $session;
     }
 }
