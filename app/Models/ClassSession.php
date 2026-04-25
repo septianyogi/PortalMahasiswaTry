@@ -9,7 +9,7 @@ class ClassSession extends Model
     protected $fillable = [
     'class_id',
     'week',
-    'date',
+    'code_duration',
     'qr_token',
     'expired_at',
     'is_active',

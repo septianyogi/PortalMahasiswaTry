@@ -2,25 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateClassSessionRequest;
 use App\Models\ClassSession;
+use App\Services\ClassSessionService;
 use Illuminate\Http\Request;
 
 class ClassSessionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    protected $classSessionService;
+
+    public function __construct(ClassSessionService $classSessionService)
+    {
+        $this->classSessionService = $classSessionService;
+    }
+
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(CreateClassSessionRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+            $session = ClassSession::where('class_id', $data['class_id'])
+                ->where('week', $data['week'])
+                ->first();
+            if($session){
+                $classSession = $this->classSessionService->updateClassSession($data);
+                return $this->responseOk($classSession, 'Class session updated successfully');
+            }else{
+                $classSession = $this->classSessionService->createClassSession($data);
+                return $this->responseOk($classSession, 'Class session created successfully');
+            }
+
+            
+        } catch (\Throwable $th) {
+            $this->responseError($th->getMessage(), $th->getCode());
+        }
     }
 
     /**

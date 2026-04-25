@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClassAttendedRequest extends FormRequest
+class CreateClassSessionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +23,8 @@ class StoreClassAttendedRequest extends FormRequest
     {
         return [
             'class_id' => ['required'],
-            'stuent_id' => ['required'],
-            'attendance' => [ 'max:2'],
-            'absent' => ['max:2', 'integer'],
-            'mid_exam' => ['max:3', 'integer'],
-            'final_exam' => ['max:3', 'integer'],
-            'final_score' => ['max:3', 'integer'],
-           
+            'week' => ['required'],
+            'code_duration' => ['required', 'integer'],
         ];
     }
 }

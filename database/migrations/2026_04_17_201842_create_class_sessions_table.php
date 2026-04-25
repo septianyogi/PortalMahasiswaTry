@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
 
             $table->integer('week');
-            $table->date('date')->nullable();
+            $table->integer('code_duration');
 
             $table->string('qr_token');
             $table->dateTime('expired_at')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->unique(['class_id', 'week']);
             $table->index('class_id');
             $table->index('qr_token');
+            $table->index('week');
             $table->index('expired_at');
         });
     }

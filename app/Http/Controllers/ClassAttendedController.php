@@ -3,21 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreClassAttendedRequest;
+use App\Http\Requests\UpdateClassAttendedRequest;
 use App\Models\ClassAttended;
 use App\Services\ClassAttendedService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClassAttendedController extends Controller
 {
     protected $classAttendedService;
 
-    public function _construct(ClassAttendedService $classesAttendedService)
+    public function __construct(ClassAttendedService $classesAttendedService)
     {
         $this->classAttendedService = $classesAttendedService;
     }
 
+    public function viewDosenClassAttended()
+    {
+        try {
+            $classAttended = $this->classAttendedService->viewDosenClassAttended();
+            return $this->responseOk($classAttended, 'Success');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
 
-    public function index()
+
+    public function viewClassAttended()
     {
         try {
             $classAttended = $this->classAttendedService->viewClassAttended();
@@ -36,6 +48,32 @@ class ClassAttendedController extends Controller
             $data = $request->validated();
             $classAttended = $this->classAttendedService->createClassAttended($data);
             return $this->responseOk($classAttended, 'Class Attended Created Successfully');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
+    public function update(UpdateClassAttendedRequest $request, $id)
+    {
+        try {
+            $data = $request->validated();
+            $classAttended = $this->classAttendedService->updateClassAttended($data, $data);
+            return $this->responseOk($classAttended, 'Class Attended Updated Successfully');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $classAttended = $this->classAttendedService->deleteClassAttended($id);
+            if ($classAttended == true) {
+                return $this->responseOk($classAttended, 'Class Attended Deleted Successfully');
+            } else {
+                return $this->responseError('Failed to delete Class Attended', 500);
+            }
+            
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode());
         }
@@ -68,10 +106,7 @@ class ClassAttendedController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ClassAttended $classAttended)
-    {
-        //
-    }
+    
 
     /**
      * Remove the specified resource from storage.

@@ -19,8 +19,18 @@ class ClassAttended extends Model
         'final_score',
     ];
 
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
+
     public function class()
     {
         return $this->belongsTo(Classes::class, 'class_id');
+    }
+
+    public function attendandes()
+    {
+        return $this->hasMany(Attendance::class, 'class_id', 'class_id');
     }
 }

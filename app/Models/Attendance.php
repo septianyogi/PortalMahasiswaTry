@@ -9,7 +9,13 @@ class Attendance extends Model
     protected $fillable = [
     'session_id',
     'student_id',
+    'class_id',
     'status',
     'scanned_at',
 ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
 }
