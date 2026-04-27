@@ -18,10 +18,10 @@ class ClassAttendedController extends Controller
         $this->classAttendedService = $classesAttendedService;
     }
 
-    public function viewDosenClassAttended()
+    public function viewDosenClassAttended($classId)
     {
         try {
-            $classAttended = $this->classAttendedService->viewDosenClassAttended();
+            $classAttended = $this->classAttendedService->viewDosenClassAttended($classId);
             return $this->responseOk($classAttended, 'Success');
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode());

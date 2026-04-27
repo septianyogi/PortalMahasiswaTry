@@ -25,4 +25,9 @@ class Classes extends Model
     {
         return $this->belongsTo(Dosen::class, 'dosen_id');
     }
+
+    public function classAttended()
+    {
+        return $this->hasMany(ClassAttended::class, 'class_id');
+    }
 }

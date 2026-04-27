@@ -25,10 +25,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
         try {
             $data = $request->validated();
-            $login = $this->authService->login($data->only('email', 'password'));
+            $login = $this->authService->login($data);
             return $this->responseOk($login, 'Login Success');
         } catch (\Throwable $th) {
-            $this->responseError($th->getMessage(), 401);
+            return $this->responseError($th->getMessage(), 401);
         }
         
     }

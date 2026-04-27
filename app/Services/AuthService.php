@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -15,12 +16,13 @@ class AuthService
 {
     public function login(array $data)
     {
-        if(!$token = auth('api')->attempt($data))
-            {
-                throw new \Exception('Invalid email or password', 401);
-            }
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            
+            throw new \Exception('Invalid email or password', 401);
+        }
         
-        $user = auth('api')->user();
         $token = $this->generateTokens($user);
         return $token;
     }

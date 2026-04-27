@@ -29,7 +29,7 @@ class ClassAttended extends Model
         return $this->belongsTo(Classes::class, 'class_id');
     }
 
-    public function attendandes()
+    public function attendances()
     {
         return $this->hasMany(Attendance::class, 'class_id', 'class_id');
     }

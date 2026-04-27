@@ -21,6 +21,16 @@ class ClassesController extends Controller
         $this->classesService = $classesService;
     }
 
+    public function getDosenClass()
+    {
+        try {
+            $classes = $this->classesService->viewDosenClass();
+            return $this->responseOk($classes, 'Success');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), 400);
+        }
+    }
+
 
     public function getAllClass()
     {

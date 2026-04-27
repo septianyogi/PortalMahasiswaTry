@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ClassAttended;
+use App\Models\Classes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,13 +19,28 @@ class ClassAttendedService
         return "class_attended_user_" . $userId;
     }
 
-    public function viewDosenClassAttended()
+    public function viewDosenClassAttended(int $classId)
     {
         $user = Auth::user()->id;
-        $classAttended = ClassAttended::with(['student', 'class'])
-        ->whereHas('class.dosen', function ($q) use ($user) {
-            $q->where('user_id', $user);
-        })->get();
+        $classAttended =  Classes::with(['classAttended' => function ($q) {
+                    $q->select(
+                        'id',
+                        'class_id',
+                        'student_id',
+                        'attendance',
+                        'absent',
+                        'mid_exam',
+                        'final_exam',
+                        'final_score'
+                    );
+                },
+                'classAttended.student' => function ($q) {
+                    $q->select('id', 'npm', 'name', 'email');
+                }])
+            ->where('id', $classId)
+            ->whereHas('dosen', function ($query) use ($user) {
+                $query->where('user_id', $user);
+            })->first();
 
         return $classAttended;
 

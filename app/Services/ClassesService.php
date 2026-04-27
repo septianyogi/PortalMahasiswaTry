@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Classes;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ClassesService
@@ -10,6 +11,13 @@ use App\Models\Classes;
  */
 class ClassesService
 {
+
+    public function viewDosenClass()
+    {
+        $dosen = Auth::user()->id;
+        $classes = Classes::where('dosen_id', $dosen)->get();
+        return $classes;
+    }
     public function createClass(array $data)
     {
        
