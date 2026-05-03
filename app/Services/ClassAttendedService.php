@@ -67,7 +67,7 @@ class ClassAttendedService
             $class = Classes::where('id', $classId)
                             ->lockForUpdate()
                             ->first();
-                            
+
             if ($class->current_quota >= $class->quota) {
                 throw new \Exception('Class is full');
             }
@@ -78,6 +78,8 @@ class ClassAttendedService
                 'class_id' => $classId,
                 'student_id' => $student
             ]);
+
+            $class::increment('current_quota');
 
             Cache::forget($this->cacheKey($user));
             return $classAttended;
