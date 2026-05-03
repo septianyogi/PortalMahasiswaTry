@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Models\ClassAttended;
 use App\Models\Classes;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ClassesService
@@ -59,22 +61,29 @@ class ClassAttendedService
     }
 
 
-    public function createClassAttended(array $data)
+    public function createClassAttended(int $classId)
     {
+        DB::transaction(function () use ($classId) {
+            $class = Classes::where('id', $classId)
+                            ->lockForUpdate()
+                            ->first();
+                            
+            if ($class->current_quota >= $class->quota) {
+                throw new \Exception('Class is full');
+            }
+            
+            $user = Auth::user()->id;
+            $student = Student::where('user_id', $user)->first();
+            $classAttended = ClassAttended::create([
+                'class_id' => $classId,
+                'student_id' => $student
+            ]);
 
-        $classAttended = ClassAttended::create([
-            'class_id' => $data['class_id'],
-            'student_id' => $data['student_id'],
-            'attendance' => $data['attendance'] ?? 0,
-            'absent' => $data['absent'] ?? 0,
-            'mid_exam' => $data['mid_exam'] ?? 0,
-            'final_exam' => $data['final_exam'] ?? 0,
-            'final_score' => $data['final_score'] ?? 0,
-        ]);
-
-        Cache::forget($this->cacheKey($data['student_id']));
+            Cache::forget($this->cacheKey($user));
+            return $classAttended;
+        });
      
-        return $classAttended;
+        
     }
 
     public function updateClassAttended(int $id, array $data)

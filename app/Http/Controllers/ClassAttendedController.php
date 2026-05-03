@@ -42,11 +42,10 @@ class ClassAttendedController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreClassAttendedRequest $request)
+    public function create($classId)
     {
         try {
-            $data = $request->validated();
-            $classAttended = $this->classAttendedService->createClassAttended($data);
+            $classAttended = $this->classAttendedService->createClassAttended($classId);
             return $this->responseOk($classAttended, 'Class Attended Created Successfully');
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode());

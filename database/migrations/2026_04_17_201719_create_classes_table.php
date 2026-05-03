@@ -21,12 +21,15 @@ return new class extends Migration
             $table->time('time_end');
             $table->foreignId('dosen_id')->references('id')->on('dosens');
             $table->integer('quota');
+            $table->integer('current_quota')->default(0);
             $table->string('room')->nullable();
             $table->string('semester');
             $table->timestamps();
 
             $table->index('jurusan_id');
             $table->index('dosen_id');
+            $table->index('quota');
+            $table->index('current_quota');
             $table->index(['jurusan_id', 'semester']);
         });
     }

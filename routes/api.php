@@ -23,7 +23,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('classAttended/dosen/get/{classId}', [ClassAttendedController::class, 'viewDosenClassAttended']);
 
     Route::get('classAttended/get', [ClassAttendedController::class, 'viewClassAttended']);
-    Route::post('classAttended/create',[ClassAttendedController::class, 'create']);
+    Route::post('classAttended/create/{classId}',[ClassAttendedController::class, 'create']);
     Route::patch('classAttended/update/{id}', [ClassAttendedController::class, 'update']);
     Route::delete('classAttended/delete/{id}', [ClassAttendedController::class, 'delete']);
 

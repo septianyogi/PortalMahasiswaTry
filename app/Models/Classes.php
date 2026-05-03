@@ -17,6 +17,7 @@ class Classes extends Model
         'time_end',
         'dosen_id',
         'quota',
+        'current_quota',
         'room',
         'semester',
     ];
