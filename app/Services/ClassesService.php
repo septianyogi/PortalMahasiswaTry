@@ -14,8 +14,9 @@ class ClassesService
 
     public function viewDosenClass()
     {
-        $dosen = Auth::user()->id;
-        $classes = Classes::where('dosen_id', $dosen)->get();
+        $user = Auth::user();
+
+        $classes = Classes::where('dosen_id', $user->dosen->id)->get();
         return $classes;
     }
     public function createClass(array $data)

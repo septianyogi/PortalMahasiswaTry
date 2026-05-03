@@ -79,6 +79,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'id_number', 'nip');
+        return $this->hasOne(Dosen::class, 'user_id');
     }
 }
