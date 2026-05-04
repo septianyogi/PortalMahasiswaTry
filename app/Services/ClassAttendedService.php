@@ -50,13 +50,20 @@ class ClassAttendedService
 
     public function viewClassAttended()
     {
-        $user = Auth::user()->id;
-        $cacheKey = $this->cacheKey($user);
+        $userId = Auth::user()->id;
+        $student = Student::where('user_id', $userId)->first();
 
-        return Cache::remember($cacheKey, 300, function () use ($user) {
-        return $classAttended = ClassAttended::with('class:id,code,name,date,time_start,time_end,dosen_id')
-        ->where('student_id', $user)
-        ->select('id', 'class_id', 'student_id')->get();
+        if (!$student) {
+            throw new \Exception('Student Not Found');
+        }
+
+        $cacheKey = $this->cacheKey($userId);
+
+        return Cache::remember($cacheKey, 300, function () use ($student) {
+            return ClassAttended::with('class:id,code,name,date,time_start,time_end,dosen_id,room')
+                ->where('student_id', $student->id)
+                ->select('id', 'class_id', 'student_id')
+                ->get();
         });
     }
 

@@ -43,6 +43,18 @@ class AuthController extends Controller
         }
     }
 
+    public function refresh(Request $request)
+    {
+        try {
+            $refreshToken = $request->refresh_token;
+
+            $result = $this->authService->refresh($refreshToken);
+            return $this->responseOk($result, 'Token refreshed', 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 401);
+        }
+    }
+
 
     public function logout(Request $request){
         try {

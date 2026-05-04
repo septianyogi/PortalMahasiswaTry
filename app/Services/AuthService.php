@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Dosen;
 use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -87,16 +88,24 @@ class AuthService
         $token = DB::table('refresh_tokens')
             ->where('jti', $refreshToken)
             ->first();
-        
-        if(!$token || now()->gt($token->expires_at)) {
-            throw new \Exception('Invalid or expired refresh token', 401);
+
+        if (!$token) {
+            throw new \Exception('Invalid refresh token', 401);
         }
+
+        if (Carbon::now()->gt($token->expires_at)) {
+            // hapus kalau expired
+            DB::table('refresh_tokens')->where('jti', $refreshToken)->delete();
+            throw new \Exception('Refresh token expired', 401);
+        }
+
         $user = User::findOrFail($token->user_id);
 
         return [
             'access_token' => $this->createAccessToken($user),
-            'refresh_token' => $refreshToken,
+            'refresh_token' => $refreshToken, // tetap sama
             'token_type' => 'bearer',
+            'expires_in' => 60 * 30,
         ];
     }
 

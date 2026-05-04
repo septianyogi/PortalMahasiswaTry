@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             'role' => 'dosen'
         ]);
 
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             User::create([
                 'name' => "Student $i",
                 'email' => "student$i@gmail.com",

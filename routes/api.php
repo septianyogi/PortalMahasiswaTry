@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('throttle:30,1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/fast', fn() => 'ok');
+    Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
 
