@@ -57,6 +57,7 @@ class AuthService
             'access_token' => $this->createAccessToken($user),
             'refresh_token' => $this->createRefreshToken($user),
             'token_type' => 'bearer',
+            'expires_in' =>  config('jwt.ttl') * 60,
         ];
     }
 
