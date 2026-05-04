@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Dosen;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,9 +24,31 @@ class AuthService
             
             throw new \Exception('Invalid email or password', 401);
         }
+
+        $role = $user->role;
+
+        // ambil relasi berdasarkan role
+        $student = null;
+        $dosen = null;
+
+        if ($role === 'student') {
+            $student = Student::where('user_id', $user->id)->first();
+        }
+
+        if ($role === 'dosen') {
+            $dosen = Dosen::where('user_id', $user->id)->first();
+        }
         
         $token = $this->generateTokens($user);
-        return $token;
+
+
+        return [
+        'user' => $user,
+        'student' => $student,
+        'dosen' => $dosen,
+        'role' => $role,
+        'token' => $token,
+    ];
     }
 
     private function generateTokens($user)

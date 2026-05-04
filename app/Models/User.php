@@ -15,7 +15,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -74,7 +74,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function student()
     {
-        return $this->belongsTo(Student::class, 'id_number', 'npm');
+        return $this->hasOne(Student::class);
     }
 
     public function dosen()
