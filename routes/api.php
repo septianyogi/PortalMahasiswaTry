@@ -17,6 +17,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('class/get', [ClassesController::class, 'getAllClass']);
+    Route::get('class/student/get', [ClassesController::class, 'getStudentClass']);
     Route::post('class/create', [ClassesController::class, 'create']);
     
     Route::get('classAttended/dosen/get', [ClassesController::class, 'getDosenClass']);

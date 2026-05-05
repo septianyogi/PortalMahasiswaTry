@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Classes;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -17,6 +18,17 @@ class ClassesService
         $user = Auth::user();
 
         $classes = Classes::where('dosen_id', $user->dosen->id)->get();
+        return $classes;
+    }
+
+    public function getStudentClass()
+    {
+        $userId = Auth::user()->id;
+
+        $student = Student::where('user_id', $userId)->first();
+
+        $classes = Classes::where('jurusan_id', $student->jurusan_id)->get();
+
         return $classes;
     }
     public function createClass(array $data)

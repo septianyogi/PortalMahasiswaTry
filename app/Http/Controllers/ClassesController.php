@@ -43,6 +43,15 @@ class ClassesController extends Controller
         
     }
 
+    public function getStudentClass() {
+        try {
+            $classes = $this->classesService->getStudentClass();
+            return $this->responseOk($classes, 'Success', 200);
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */

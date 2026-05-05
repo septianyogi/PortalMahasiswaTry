@@ -18,14 +18,16 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => "password",
-            'role' => 'admin'
+            'role' => 'admin',
+            'pin' => '123456'
         ]);
 
         User::create([
             'name' => 'Dosen 1',
             'email' => 'dosen@gmail.com',
             'password' => "password",
-            'role' => 'dosen'
+            'role' => 'dosen',
+            'pin' => '123456'
         ]);
 
         for ($i = 1; $i <= 20; $i++) {
@@ -33,7 +35,8 @@ class UserSeeder extends Seeder
                 'name' => "Student $i",
                 'email' => "student$i@gmail.com",
                 'password' => "password",
-                'role' => 'student'
+                'role' => 'student',
+                'pin' => '123456'
             ]);
         }
     }
