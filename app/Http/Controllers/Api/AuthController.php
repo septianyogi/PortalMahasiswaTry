@@ -46,6 +46,9 @@ class AuthController extends Controller
     public function refresh(Request $request)
     {
         try {
+             $request->validate([
+            'refresh_token' => 'required'
+            ]);
             $refreshToken = $request->refresh_token;
 
             $result = $this->authService->refresh($refreshToken);

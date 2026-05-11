@@ -125,7 +125,6 @@ class AuthService
         DB::table('refresh_tokens')
         ->when('jti', $refreshToken)
         ->delete();
-
         return true;
     }
 }
