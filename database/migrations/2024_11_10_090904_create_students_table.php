@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('email');
             $table->foreignId('jurusan_id')->references('id')->on('jurusans');
             $table->foreignId('fakultas_id')->references('id')->on('fakultas');
-            $table->string('semester');
+            $table->integer('credits')->default(0);
+            $table->integer('gpa')->default(0);
+            $table->integer('semester');
             $table->string('dob')->nullable();
             $table->string('country')->nullable();
             $table->string('province')->nullable();

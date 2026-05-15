@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassAttendedController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ClassSessionController;
@@ -29,6 +30,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('classAttended/delete/{id}', [ClassAttendedController::class, 'delete']);
 
     Route::post('classSession/create', [ClassSessionController::class, 'create']);
+    Route::post('attendance/create', [AttendanceController::class, 'createAttendance']);
 });
 
 

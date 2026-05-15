@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('date');
             $table->time('time_start');
             $table->time('time_end');
+            $table->integer('credits');
             $table->foreignId('dosen_id')->references('id')->on('dosens');
             $table->integer('quota');
             $table->integer('current_quota')->default(0);

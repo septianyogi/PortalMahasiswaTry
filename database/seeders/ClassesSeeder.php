@@ -24,6 +24,7 @@ class ClassesSeeder extends Seeder
                 'date' => $dayList[array_rand($dayList)],
                 'time_start' => '08:00:00',
                 'time_end' => '10:00:00',
+                'credits' => rand(2, 4),
                 'dosen_id' => $dosen->id,
                 'quota' => 30,
                 'room' => "Lab $i",

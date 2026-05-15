@@ -21,8 +21,6 @@ class DatabaseSeeder extends Seeder
         StudentSeeder::class,
         ClassesSeeder::class,
         ClassAttendedSeeder::class,
-        ClassSessionSeeder::class,
-        AttendanceSeeder::class,
         AssignmentSeeder::class,
     ]);
     }

@@ -24,7 +24,7 @@ class StudentSeeder extends Seeder
                 'email' => $user->email,
                 'jurusan_id' => 1,
                 'fakultas_id' => 1,
-                'semester' => '2',
+                'semester' => 2,
                 'dob' => '2000-01-01',
                 'alamat' => 'Yogyakarta',
                 'pembayaran' => true,

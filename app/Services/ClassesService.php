@@ -27,7 +27,7 @@ class ClassesService
 
         $student = Student::where('user_id', $userId)->first();
 
-        $classes = Classes::where('jurusan_id', $student->jurusan_id)->get();
+        $classes = Classes::with('dosen')->where('jurusan_id', $student->jurusan_id)->get();
 
         return $classes;
     }

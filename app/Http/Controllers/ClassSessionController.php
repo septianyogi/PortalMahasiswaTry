@@ -27,17 +27,8 @@ class ClassSessionController extends Controller
     {
         try {
             $data = $request->validated();
-            $session = ClassSession::where('class_id', $data['class_id'])
-                ->where('week', $data['week'])
-                ->first();
-            if($session){
-                $classSession = $this->classSessionService->updateClassSession($data, $session);
-                return $this->responseOk($classSession, 'Class session updated successfully');
-            }else{
-                $classSession = $this->classSessionService->createClassSession($data);
-                return $this->responseOk($classSession, 'Class session created successfully');
-            }
-
+            $classSession = $this->classSessionService->createClassSession($data);
+            $this->responseOk($classSession, 'Class session created successfully');
             
         } catch (\Throwable $th) {
             $this->responseError($th->getMessage(), $th->getCode());
@@ -47,10 +38,7 @@ class ClassSessionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.
