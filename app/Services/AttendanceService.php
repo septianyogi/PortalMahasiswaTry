@@ -30,7 +30,7 @@ class AttendanceService
         } elseif ($classSession->expired_at < now()) {
             throw new \Exception('QR Token has expired', 400);
         } elseif (!$classSession->is_active) {
-            throw new \Exception('Class session is not active', 400);
+            throw new \Exception('QR Token is not active', 400);
         }
         $existingAttendance = Attendance::where('session_id', $classSession->id)
             ->where('student_id', $student->id)

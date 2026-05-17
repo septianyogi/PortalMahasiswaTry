@@ -11,7 +11,7 @@ class CreateClassSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class CreateClassSessionRequest extends FormRequest
         return [
             'class_id' => ['required'],
             'week' => ['required'],
-            'code_duration' => ['required', 'integer'],
+            'code_duration' => ['required'],
         ];
     }
 }

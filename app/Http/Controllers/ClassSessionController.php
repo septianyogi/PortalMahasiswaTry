@@ -28,10 +28,10 @@ class ClassSessionController extends Controller
         try {
             $data = $request->validated();
             $classSession = $this->classSessionService->createClassSession($data);
-            $this->responseOk($classSession, 'Class session created successfully');
+            return $this->responseOk($classSession, 'Class session created successfully');
             
         } catch (\Throwable $th) {
-            $this->responseError($th->getMessage(), $th->getCode());
+            return $this->responseError($th->getMessage(), $th->getCode());
         }
     }
 
