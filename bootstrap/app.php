@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckBlacklistToken;
 use App\Http\Middleware\DebugbarHeaders;
 use App\Http\Middleware\is_admin;
 use App\Http\Middleware\is_dosen;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'debugBar' => DebugbarHeaders::class,
             'is_admin' => is_admin::class,
             'is_student' => is_student::class,
-            'is_dosen' => is_dosen::class
+            'is_dosen' => is_dosen::class,
+            'check_blacklist' => CheckBlacklistToken::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

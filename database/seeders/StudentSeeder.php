@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Jurusan;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +16,7 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $students = User::where('role', 'student')->get();
+        $jurusan = Jurusan::where('id', 1)->first();
 
         foreach ($students as $i => $user) {
             Student::create([
@@ -22,6 +24,7 @@ class StudentSeeder extends Seeder
                 'npm' => 2024000 + $i,
                 'name' => $user->name,
                 'email' => $user->email,
+                'jurusan' => $jurusan->name,
                 'jurusan_id' => 1,
                 'fakultas_id' => 1,
                 'semester' => 2,

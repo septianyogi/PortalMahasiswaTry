@@ -66,7 +66,7 @@ class AuthService
     {
         return JWTAuth::claims([
             'jti' => Str::uuid()->toString(),
-            'exp' => now()->addMinutes(30)->timestamp,
+            'exp' => now()->addSeconds(10)->timestamp,
         ])->fromUser($user);
     }
 
@@ -94,16 +94,16 @@ class AuthService
         }
 
         if (Carbon::now()->gt($token->expires_at)) {
-            // hapus kalau expired
             DB::table('refresh_tokens')->where('jti', $refreshToken)->delete();
             throw new \Exception('Refresh token expired', 401);
         }
 
         $user = User::findOrFail($token->user_id);
 
+
         return [
             'access_token' => $this->createAccessToken($user),
-            'refresh_token' => $refreshToken, // tetap sama
+            'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
             'expires_in' => 60 * 30,
         ];
@@ -122,9 +122,28 @@ class AuthService
 
     public function logout($refreshToken)
     {
+        $token = JWTAuth::getToken();
+
+        if ($token) {
+
+            $payload = JWTAuth::getPayload($token);
+
+            $jti = $payload->get('jti');
+
+            $exp = $payload->get('exp');
+
+            DB::table('blacklisted_tokens')->insert([
+                'jti' => $jti,
+                'expired_at' => Carbon::createFromTimestamp($exp),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         DB::table('refresh_tokens')
-        ->when('jti', $refreshToken)
-        ->delete();
+            ->where('jti', $refreshToken)
+            ->delete();
+
         return true;
     }
 }

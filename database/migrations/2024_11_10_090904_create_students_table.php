@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('npm')->unique();
             $table->string('name');
             $table->string('email');
+            $table->string('jurusan');
             $table->foreignId('jurusan_id')->references('id')->on('jurusans');
             $table->foreignId('fakultas_id')->references('id')->on('fakultas');
             $table->integer('credits')->default(0);

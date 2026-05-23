@@ -14,7 +14,7 @@ Route::middleware('throttle:30,1')->group(function () {
 });
 
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('class/get', [ClassesController::class, 'getAllClass']);

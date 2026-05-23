@@ -2,10 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Attendance;
 use App\Models\ClassSession;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ClassSessionService
