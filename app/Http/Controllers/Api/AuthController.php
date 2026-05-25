@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateEmailRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Dosen;
 use App\Models\Student;
 use App\Models\User;
@@ -69,15 +71,15 @@ class AuthController extends Controller
         }   
     }
 
-    protected function respondWithToken($user, $student, $dosen, $role, $token)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
-        return [
+        try {
+            $data = $request->validated();
+            $password = $this->authService->updatePassword($data);
 
-            'user' => $user,
-            'student' => $student,
-            'dosen' => $dosen,
-            'role' => $role,
-            'token' => $token
-        ];
+            return $this->responseOk(null, 'Password Updated');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
     }
 }

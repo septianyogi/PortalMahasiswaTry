@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -66,7 +67,7 @@ class AuthService
     {
         return JWTAuth::claims([
             'jti' => Str::uuid()->toString(),
-            'exp' => now()->addSeconds(10)->timestamp,
+            'exp' => now()->addMinutes(30)->timestamp,
         ])->fromUser($user);
     }
 
@@ -145,5 +146,21 @@ class AuthService
             ->delete();
 
         return true;
+    }
+
+    public function updatePassword(array $data)
+    {
+        $user = User::findOrFail(Auth::user()->id);
+
+        if(!Hash::check($data['current_password'], $user->password)){
+            throw new \Exception('Old Password is Incorrect', 400);
+        }
+
+        $user->update([
+            'password' => bcrypt($data['new_password'])
+        ]);
+
+        return true;
+            
     }
 }

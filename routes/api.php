@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassAttendedController;
 use App\Http\Controllers\ClassesController;
@@ -16,6 +17,9 @@ Route::middleware('throttle:30,1')->group(function () {
 
 Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::patch('/student/password/update', [AuthController::class, 'updatePassword']);
+
+    Route::patch('/student/personalInformation/update', [StudentController::class, 'updatePersonalInformation']);
 
     Route::get('class/get', [ClassesController::class, 'getAllClass']);
     Route::get('class/student/get', [ClassesController::class, 'getStudentClass']);
