@@ -88,7 +88,7 @@ class AuthController extends Controller
     {
         try {
             $data = $request['pin'];
-            $pin = $this->authService->updatePassword($data);
+            $pin = $this->authService->updatePin($data);
 
             return $this->responseOk($pin, 'Pin Updated');
         } catch (\Throwable $th) {

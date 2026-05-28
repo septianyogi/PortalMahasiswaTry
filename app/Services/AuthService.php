@@ -153,8 +153,8 @@ class AuthService
     {
         $user = User::findOrFail(Auth::user()->id);
 
-        if(!Hash::check($data['current_password'], $user->password)){
-            throw new \Exception('Old Password is Incorrect', 400);
+        if (!Hash::check($data['current_password'], $user->password)) {
+            abort(400, 'Old Password is Incorrect');
         }
 
         $user->update([
