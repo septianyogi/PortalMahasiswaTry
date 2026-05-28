@@ -18,6 +18,7 @@ Route::middleware('throttle:30,1')->group(function () {
 Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::patch('/student/password/update', [AuthController::class, 'updatePassword']);
+    Route::patch('/student/pin/update', [AuthController::class, 'updatePin']);
 
     Route::patch('/student/personalInformation/update', [StudentController::class, 'updatePersonalInformation']);
 

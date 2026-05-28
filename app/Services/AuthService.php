@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Type\Integer;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
@@ -161,6 +162,18 @@ class AuthService
         ]);
 
         return true;
+            
+    }
+
+    public function updatePin(String $data)
+    {
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user->update([
+            'pin' => $data
+        ]);
+
+        return $user;
             
     }
 }

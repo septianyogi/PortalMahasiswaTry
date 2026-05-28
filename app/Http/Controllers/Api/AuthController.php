@@ -12,6 +12,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -78,6 +79,18 @@ class AuthController extends Controller
             $password = $this->authService->updatePassword($data);
 
             return $this->responseOk(null, 'Password Updated');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
+    public function updatePin(Request $request)
+    {
+        try {
+            $data = $request['pin'];
+            $pin = $this->authService->updatePassword($data);
+
+            return $this->responseOk($pin, 'Pin Updated');
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode());
         }
