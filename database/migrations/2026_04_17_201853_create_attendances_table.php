@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->foreignId('session_id')->constrained('class_sessions')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('classes');
+            $table->integer('week');
 
             $table->enum('status', ['hadir', 'absent', 'izin'])->default('absent');
             $table->dateTime('scanned_at')->nullable();
@@ -26,7 +28,9 @@ return new class extends Migration
             $table->unique(['session_id', 'student_id']);
             $table->index('student_id');
             $table->index('session_id');
+            $table->index('class_id');
             $table->index('status');
+
         });
     }
 

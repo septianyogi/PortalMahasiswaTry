@@ -10,6 +10,7 @@ class Attendance extends Model
     'session_id',
     'student_id',
     'class_id',
+    'week',
     'status',
     'scanned_at',
 ];

@@ -36,6 +36,7 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
 
     Route::post('classSession/create', [ClassSessionController::class, 'create']);
     Route::post('attendance/create', [AttendanceController::class, 'createAttendance']);
+    Route::get('attendance/get', [AttendanceController::class, 'getAttendance']);
 });
 
 

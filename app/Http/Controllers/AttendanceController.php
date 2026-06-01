@@ -31,6 +31,17 @@ class AttendanceController extends Controller
         }
     }
 
+    public function getAttendance(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $attendance = $this->attendanceService->getAttendance($data);
+            return $this->responseOk($attendance, 'Attendance retrieved successfully');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */

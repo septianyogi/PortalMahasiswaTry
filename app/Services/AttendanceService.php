@@ -42,12 +42,28 @@ class AttendanceService
             $attendance = Attendance::create([
                 'session_id' => $classSession->id,
                 'student_id' => $student->id,
+                'class_id' => $classSession->class_id,
+                'week' => $classSession->week,
                 'status' => 'hadir',
                 'scanned_at' => now(),
             ]);
             return $attendance;
         }
 
+    }
+
+    public function getAttendance(array $data) 
+    {
+        try {
+            $attendance = Attendance::where('student_id', $data['student_id'])
+                ->where('class_id', $data['class_id'])
+                ->get();
+            
+            return $attendance;
+                
+        } catch (\Throwable $th){
+            throw new \Exception($th->getMessage(), $th->getCode());
+        }
     }
 
     
