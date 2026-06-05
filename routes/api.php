@@ -35,8 +35,8 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::delete('classAttended/delete/{id}', [ClassAttendedController::class, 'delete']);
 
     Route::post('classSession/create', [ClassSessionController::class, 'create']);
-    Route::post('attendance/create', [AttendanceController::class, 'createAttendance']);
-    Route::get('attendance/get', [AttendanceController::class, 'getAttendance']);
+    Route::post('student/attendance/create', [AttendanceController::class, 'createAttendance']);
+    Route::get('student/attendance/get', [AttendanceController::class, 'getAttendance']);
 });
 
 

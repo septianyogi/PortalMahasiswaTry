@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Attendance;
 use App\Models\ClassSession;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,7 +56,9 @@ class AttendanceService
     public function getAttendance(array $data) 
     {
         try {
-            $attendance = Attendance::where('student_id', $data['student_id'])
+            $userId = Auth::user()->id;
+            $student = Student::where('id', $userId)->first();
+            $attendance = Attendance::where('student_id', $student->id)
                 ->where('class_id', $data['class_id'])
                 ->get();
             
