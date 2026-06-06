@@ -8,10 +8,8 @@ use Illuminate\Console\Command;
 
 class ProcessExpiredSession extends Command
 {
-   
     protected $signature = 'app:process-expired-session';
-
-    protected $description = 'Command description';
+    protected $description = 'Process expired class sessions and dispatch jobs';
 
     public function handle(): int
     {
@@ -20,11 +18,17 @@ class ProcessExpiredSession extends Command
             ->where('expired_at', '<=', now())
             ->get();
 
-        foreach($sessions as $session) {
-            ProcessExpiredSessionJob::dispatch($session->id);
+        if ($sessions->isEmpty()) {
+            $this->info('No expired sessions found.');
+            return Command::SUCCESS;
         }
 
-        return Command::SUCCESS;
+        foreach ($sessions as $session) {
+            ProcessExpiredSessionJob::dispatch($session->id);
+            $this->info("Dispatched job for session ID: {$session->id}");
+        }
 
+        $this->info("Processed {$sessions->count()} expired session(s).");
+        return Command::SUCCESS;
     }
 }

@@ -3,15 +3,27 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: portal-app:latest          # ← beri nama image hasil build
     container_name: laravel_app
     volumes:
       - .:/var/www
-      - vendor:/var/www/vendor   
+      - vendor:/var/www/vendor
+      - storage:/var/www/storage
     networks:
       - laravel
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=portalmahasiswa
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - QUEUE_CONNECTION=database
 
   nginx:
     image: nginx:latest
@@ -41,6 +53,7 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
+    command: --performance_schema=ON --innodb_buffer_pool_size=256M
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -54,8 +67,41 @@ services:
     networks:
       - laravel
 
+  queue:
+    image: portal-app:latest           # ← gunakan image yang sama
+    container_name: laravel_queue
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - vendor:/var/www/vendor
+      - storage:/var/www/storage
+    networks:
+      - laravel
+    depends_on:
+      - app
+      - db
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+    restart: unless-stopped
+
+  scheduler:
+    image: portal-app:latest           # ← gunakan image yang sama
+    container_name: laravel_scheduler
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - vendor:/var/www/vendor
+      - storage:/var/www/storage
+    networks:
+      - laravel
+    depends_on:
+      - app
+      - db
+    command: php artisan schedule:work
+    restart: unless-stopped
+
 volumes:
   vendor:
+  storage:
 
 networks:
   laravel:
