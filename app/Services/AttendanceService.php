@@ -7,6 +7,7 @@ use App\Models\ClassSession;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ClassSessionService
@@ -17,12 +18,13 @@ class AttendanceService
 
     public function createAttendance(array $data)
     {
-        $classSession = ClassSession::where('qr_token', $data['qr_token'])
+        return DB::transaction(function () use ($data) {
+            $classSession = ClassSession::where('qr_token', $data['qr_token'])
             ->first();
 
         $userId = Auth::user()->id;
 
-        $student = User::where('id', $userId)
+        $student = Student::where('user_id', $userId)
             ->first();
         
 
@@ -40,7 +42,12 @@ class AttendanceService
         if ($existingAttendance) {
             throw new \Exception('Attendance already recorded for this session', 400);
         } else {
-            $attendance = Attendance::create([
+            $attendance = Attendance::firstOrCreate(
+            [
+                'session_id' => $classSession->id,
+                'student_id' => $student->id, 
+            ],    
+            [
                 'session_id' => $classSession->id,
                 'student_id' => $student->id,
                 'class_id' => $classSession->class_id,
@@ -50,6 +57,7 @@ class AttendanceService
             ]);
             return $attendance;
         }
+        });
 
     }
 
@@ -57,7 +65,7 @@ class AttendanceService
     {
         try {
             $userId = Auth::user()->id;
-            $student = Student::where('id', $userId)->first();
+            $student = Student::where('user_id', $userId)->first();
             $attendance = Attendance::where('student_id', $student->id)
                 ->where('class_id', $data['class_id'])
                 ->get();

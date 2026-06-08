@@ -75,7 +75,7 @@ class ProcessExpiredSessionJob implements ShouldQueue
             }
 
             if (!empty($absentRecords)) {
-                Attendance::insert($absentRecords);
+                Attendance::upsert($absentRecords, ['session_id', 'student_id'], ['status', 'updated_at']);
                 Log::info("Absent records inserted", [
                     'session_id' => $this->sessionId,
                     'count' => count($absentRecords)
@@ -87,5 +87,13 @@ class ProcessExpiredSessionJob implements ShouldQueue
         });
 
         Log::info("Expired session job completed", ['session_id' => $this->sessionId]);
+    }
+
+    public function failed(\Throwable $e): void {
+        Log::error("ProcessExpiredSessionJob failed", [
+            'session_id' => $this->sessionId,
+            'error'      => $e->getMessage(),
+            'trace'      => $e->getTraceAsString()
+        ]);
     }
 }

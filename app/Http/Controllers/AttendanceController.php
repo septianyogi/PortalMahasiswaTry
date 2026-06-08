@@ -25,7 +25,7 @@ class AttendanceController extends Controller
         try {
             $data = $request->all();
             $attendance = $this->attendanceService->createAttendance($data);
-            return $this->responseOk($attendance, 'Attendance created successfully');
+            return $this->responseOk($attendance, 'Attendance created successfully', 200);
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode());
         }
