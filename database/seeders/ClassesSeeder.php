@@ -16,7 +16,7 @@ class ClassesSeeder extends Seeder
     {
         $dosen = Dosen::first();
         $dayList = ['senin', 'selasa', 'rabu', 'kamis'];
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             Classes::create([
                 'code' => 'IF10' . $i,
                 'jurusan_id' => 1,

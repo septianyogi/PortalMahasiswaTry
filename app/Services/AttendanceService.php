@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\ClassSession;
 use App\Models\Student;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -69,6 +70,10 @@ class AttendanceService
             $attendance = Attendance::where('student_id', $student->id)
                 ->where('class_id', $data['class_id'])
                 ->get();
+            
+            if (!$attendance ) {
+                throw new \Exception('Data is not exist', 200);
+            }
             
             return $attendance;
                 

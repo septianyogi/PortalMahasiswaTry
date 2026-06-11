@@ -42,7 +42,7 @@ class ProcessExpiredSessionJob implements ShouldQueue
         DB::transaction(function () use ($session) {
             // Ambil daftar student_id yang sudah hadir (status 'present')
             $presentStudentIds = Attendance::where('session_id', $this->sessionId)
-                ->where('status', 'present') // Hanya yang benar-benar hadir
+                ->where('status', 'hadir') // Hanya yang benar-benar hadir
                 ->pluck('student_id')
                 ->toArray();
 
