@@ -21,9 +21,19 @@ return new class extends Migration
             $table->integer('attendance')->default(0);
             $table->integer('absent')->default(0);
 
-            $table->integer('mid_exam')->default(0);
-            $table->integer('final_exam')->default(0);
-            $table->integer('final_score')->default(0);
+             $table->integer('assignment_1')->nullable();
+            $table->integer('assignment_2')->nullable();
+            $table->integer('assignment_3')->nullable();
+            $table->integer('assignment_4')->nullable();
+
+            // Ubah mid_exam & final_exam menjadi nullable
+            $table->integer('mid_exam')->nullable();
+            $table->integer('final_exam')->nullable();
+
+            // Hasil akhir
+            $table->float('final_score')->nullable();
+            $table->string('letter_grade', 2)->nullable();
+            $table->float('gpa')->nullable();
 
             $table->timestamps();
 

@@ -25,6 +25,18 @@ return new class extends Migration
             $table->integer('current_quota')->default(0);
             $table->string('room')->nullable();
             $table->string('semester');
+
+            // Bobot total (dalam persen, total 100)
+            $table->float('weight_assignment')->default(40);
+            $table->float('weight_mid')->default(30);
+            $table->float('weight_final')->default(30);
+
+            // Bobot per assignment (masing-masing dalam persen)
+            $table->float('weight_assignment_1')->default(10);
+            $table->float('weight_assignment_2')->default(10);
+            $table->float('weight_assignment_3')->default(10);
+            $table->float('weight_assignment_4')->default(10);
+
             $table->timestamps();
 
             $table->index('jurusan_id');

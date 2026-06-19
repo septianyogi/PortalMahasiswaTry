@@ -9,14 +9,17 @@ class ClassAttended extends Model
     protected $table = 'class_attendeds';
 
     protected $fillable = [
-        'class_id',
-        'student_id',
-        'verified_at',
-        'attendance',
-        'absent',
-        'mid_exam',
-        'final_exam',
-        'final_score',
+       'class_id', 'student_id', 'verified_at',
+        'attendance', 'absent',
+        'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4',
+        'mid_exam', 'final_exam',
+        'final_score', 'letter_grade', 'gpa'
+    ];
+
+    protected $casts = [
+        'verified_at' => 'datetime',
+        'final_score' => 'float',
+        'gpa' => 'float',
     ];
 
     public function student()

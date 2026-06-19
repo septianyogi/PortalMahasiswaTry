@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->text('alamat')->nullable();
             $table->boolean('pembayaran')->default(false);
+            $table->date('semester_start_date')->nullable();
             $table->timestamps();
 
             $table->index('user_id');
