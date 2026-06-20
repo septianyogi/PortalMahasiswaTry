@@ -15,6 +15,21 @@ use Illuminate\Support\Facades\Log;
  */
 class SemesterService
 {
+
+    public function studentSemester(int $studentId)
+    {
+        try {
+            $student = StudentSemester::where('student_id', $studentId)
+                ->get();
+            
+            return $student;
+            
+        } catch (\Throwable $th) {
+         throw $th;   
+        }
+
+    }
+    
     public function advanceAll(): array
     {
         $students = Student::whereHas('studentSemesters', function ($s){

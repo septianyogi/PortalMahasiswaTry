@@ -7,6 +7,7 @@ use App\Http\Controllers\ClassAttendedController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\SemesterController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('throttle:30,1')->group(function () {
@@ -40,12 +41,20 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::get('student/attendance/get', [AttendanceController::class, 'getAttendance']);
 
     Route::prefix('grades')->group(function () {
-    Route::put('/{classAttendedId}', [GradeController::class, 'update']);
-    // Detail satu grade
-    Route::get('/{classAttendedId}', [GradeController::class, 'show']);
-    // Semua grade mahasiswa + IPK
-    Route::get('/student/{studentId}', [GradeController::class, 'studentGrades']);
-});
+        Route::put('/{classAttendedId}', [GradeController::class, 'update']);
+        // Detail satu grade
+        Route::get('/{classAttendedId}', [GradeController::class, 'show']);
+        // Semua grade mahasiswa + IPK
+        Route::get('/student/{studentId}', [GradeController::class, 'studentGrades']);
+    });
+
+    Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+        Route::post('/advance-semester', [SemesterController::class, 'advance']);
+        Route::post('/advance-semester/{studentId}', [SemesterController::class, 'advanceSingle']);
+        Route::get('/student-semester/{studentId}', [SemesterController::class, 'history']);
+    });
+
+    Route::get('/student/semester/{studentId}', [StudentController::class, 'studentSemester']);
 });
 
 
