@@ -29,4 +29,11 @@ class StudentSemester extends Model
         return $this->belongsTo(Student::class);
     }
 
+    
+    public function classAttendeds()
+    {
+        return $this->hasMany(ClassAttended::class, 'student_id', 'student_id')
+            ->whereColumn('class_attendeds.semester', 'student_semesters.semester_number');
+    }
+
 }

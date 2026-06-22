@@ -51,7 +51,8 @@ class ClassAttendedService
     public function viewClassAttended()
     {
         $userId = Auth::user()->id;
-        $student = Student::where('user_id', $userId)->first();
+        $student = Student::where('user_id', $userId)
+            ->first();
 
         if (!$student) {
             throw new \Exception('Student Not Found');

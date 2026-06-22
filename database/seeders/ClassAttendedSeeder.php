@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Classes;
 use App\Models\ClassAttended;
 use App\Models\Student;
-use App\Services\GradeCalculator;
+use App\Services\GradeService;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -23,7 +23,7 @@ class ClassAttendedSeeder extends Seeder
         }
 
         // Inisialisasi service kalkulator
-        $calculator = app(GradeCalculator::class);
+        $calculator = app(GradeService::class);
 
         foreach ($classes as $class) {
             foreach ($students as $student) {

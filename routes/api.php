@@ -41,6 +41,9 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::get('student/attendance/get', [AttendanceController::class, 'getAttendance']);
 
     Route::prefix('grades')->group(function () {
+        // Get all class attendedn with grade detail
+        Route::get('/detail/{classId}/{studentId}', [GradeController::class, 'showDetail']);
+        
         Route::put('/{classAttendedId}', [GradeController::class, 'update']);
         // Detail satu grade
         Route::get('/{classAttendedId}', [GradeController::class, 'show']);
@@ -54,7 +57,7 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
         Route::get('/student-semester/{studentId}', [SemesterController::class, 'history']);
     });
 
-    Route::get('/student/semester/{studentId}', [StudentController::class, 'studentSemester']);
+    Route::get('/student/semester/{studentId}', [SemesterController::class, 'studentSemester']);
 });
 
 

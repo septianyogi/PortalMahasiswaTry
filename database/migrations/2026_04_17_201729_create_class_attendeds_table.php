@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
+            $table->integer('semester')->nullable();
             $table->timestamp('verified_at')->nullable();
 
             $table->integer('attendance')->default(0);

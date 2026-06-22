@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassAttended;
-use App\Services\GradeCalculator;
+use App\Services\GradeService;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
-    protected $gradeCalculator;
+    protected $gradeService;
 
-    public function __construct(GradeCalculator $gradeCalculator)
+    public function __construct(GradeService $gradeService)
     {
-        $this->gradeCalculator = $gradeCalculator;
+        $this->gradeService = $gradeService;
     }
 
     /**
@@ -41,7 +41,7 @@ class GradeController extends Controller
         ]));
 
         // Hitung ulang final score, letter, GPA
-        $classAttended = $this->gradeCalculator->calculate($classAttended);
+        $classAttended = $this->gradeService->calculate($classAttended);
         
         return $this->responseOk($classAttended->load(['class', 'student.user']), 'Grade Updated Successfully');
         
@@ -58,6 +58,28 @@ class GradeController extends Controller
         return $this->responseOk($grade, 'Class loaded Successfully');
     }
 
+    public function showDetail(int $classId, int $studentId)
+    {
+        try {
+            $grade = $this->gradeService->showDetail($classId, $studentId);
+
+            return $this->responseOk($grade, 'Data Retrieve Successfully');
+        } catch (\Throwable $th) {
+            return $this->responseError('Failed to Retrieve Data');
+        }
+    }
+
+    public function showGpaDetail(int $classId, int $studentId)
+    {
+        try {
+            $grade = $this->gradeService->showGpaDetail($classId, $studentId);
+
+            return $this->responseOk($grade, 'Data Retrieve Successfully');
+        } catch (\Throwable $th) {
+            return $this->responseError('Failed to Retrieve Data');
+        }
+    }
+
     /**
      * Tampilkan semua grade mahasiswa (untuk student)
      */
@@ -67,7 +89,7 @@ class GradeController extends Controller
             ->with('class')
             ->get();
 
-        $gpa = $this->gradeCalculator->calculateGPAForStudent($studentId);
+        $gpa = $this->gradeService->calculateGPAForStudent($studentId);
         $response = [
             'grades' =>  $grades,
             'gpa' => $gpa

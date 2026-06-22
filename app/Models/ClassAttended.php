@@ -9,7 +9,7 @@ class ClassAttended extends Model
     protected $table = 'class_attendeds';
 
     protected $fillable = [
-       'class_id', 'student_id', 'verified_at',
+       'class_id', 'student_id', 'semseter', 'verified_at',
         'attendance', 'absent',
         'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4',
         'mid_exam', 'final_exam',
@@ -37,5 +37,11 @@ class ClassAttended extends Model
     public function attendances()
     {
         return $this->hasMany(Attendance::class, 'class_id', 'class_id');
+    }
+
+    public function studentSemester()
+    {
+        return $this->belongsTo(StudentSemester::class, 'student_id', 'student_id')
+            ->whereColumn('class_attendeds.semester', 'student_semesters.semester_number');
     }
 }

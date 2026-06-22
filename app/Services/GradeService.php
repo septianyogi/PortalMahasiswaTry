@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\ClassAttended;
 
-class GradeCalculator
+class GradeService
 {
     /**
      * Peta nilai: threshold minimum untuk mendapatkan huruf & GPA
@@ -21,6 +21,43 @@ class GradeCalculator
         40 => ['letter' => 'D',  'gpa' => 1.0],
         0  => ['letter' => 'E',  'gpa' => 0.0],
     ];
+
+    /**
+     * Show all class Attended with grade detail
+     */
+    public function showDetail(int $classId, int $studentId)
+    {
+        try {
+            $grade = ClassAttended::with('class:id,code,name')
+                ->where('class_id', $classId)
+                ->where('student_id', $studentId)
+                ->select('id', 'class_id', 'student_id', 'final_score', 'letter_grade', 'gpa',
+                'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4', 'mid_exam', 'final_exam')
+                ->get();
+
+            return $grade;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function showGpaDetail(int $classId, int $studentId)
+    {
+        try {
+            $grade = ClassAttended::with(['class:id,code,name', 'studentSemester:gpa,credits,status'])
+                ->where('class_id', $classId)
+                ->where('student_id', $studentId)
+                ->select('id', 'class_id', 'student_id', 'final_score', 'letter_grade', 'gpa',
+                'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4', 'mid_exam', 'final_exam')
+                ->get();
+
+            return $grade;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
 
     /**
      * Hitung final score, letter grade, dan GPA untuk satu class_attended
