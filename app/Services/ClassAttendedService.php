@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\DB;
 class ClassAttendedService
 {
 
-    private function cacheKey($userId)
-    {
-        return "class_attended_user_" . $userId;
-    }
-
     public function viewDosenClassAttended(int $classId)
     {
         $user = Auth::user()->id;
@@ -58,14 +53,18 @@ class ClassAttendedService
             throw new \Exception('Student Not Found');
         }
 
-        $cacheKey = $this->cacheKey($userId);
 
-        return Cache::remember($cacheKey, 300, function () use ($student) {
-            return ClassAttended::with('class:id,code,name,date,time_start,time_end,dosen_id,room')
-                ->where('student_id', $student->id)
-                ->select('id', 'class_id', 'student_id')
-                ->get();
-        });
+        return ClassAttended::with([
+            'class' => function ($query) {
+                $query->select('id', 'code', 'name', 'semester', 'credits', 'date', 'time_start', 'time_end', 'dosen_id', 'room');
+            },
+            'class.dosen' => function ($query) {
+                $query->select('id', 'name', 'user_id');
+            }
+            ])
+            ->where('student_id', $student->id)
+            ->select('id', 'class_id', 'student_id')
+            ->get();
     }
 
 
@@ -89,7 +88,6 @@ class ClassAttendedService
 
             $class::increment('current_quota');
 
-            Cache::forget($this->cacheKey($user));
             return $classAttended;
         });
      

@@ -28,7 +28,7 @@ class ClassSession extends Model
         return $this->hasMany(Attendance::class, 'session_id');
     }
 
-    public function classes()
+   public function class()
     {
         return $this->belongsTo(Classes::class, 'class_id');
     }
