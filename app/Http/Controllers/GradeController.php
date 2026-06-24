@@ -47,25 +47,14 @@ class GradeController extends Controller
         
     }
 
-    /**
-     * Tampilkan detail grade mahasiswa untuk satu kelas
-     */
-    public function show($classAttendedId)
-    {
-        $grade = ClassAttended::with(['class', 'student.user'])
-            ->findOrFail($classAttendedId);
 
-        return $this->responseOk($grade, 'Class loaded Successfully');
-    }
-
-    public function showDetail(int $classId, int $studentId)
+    public function showGradeDetail()
     {
         try {
-            $grade = $this->gradeService->showDetail($classId, $studentId);
-
-            return $this->responseOk($grade, 'Data Retrieve Successfully');
+            $grades = $this->gradeService->showGradeDetail();
+            return $this->responseOk($grades, 'Data Retrieved Successfully');
         } catch (\Throwable $th) {
-            return $this->responseError('Failed to Retrieve Data');
+            return $this->responseError($th->getMessage(), $th->getCode());
         }
     }
 

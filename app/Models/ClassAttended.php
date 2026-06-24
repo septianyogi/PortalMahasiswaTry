@@ -9,7 +9,7 @@ class ClassAttended extends Model
     protected $table = 'class_attendeds';
 
     protected $fillable = [
-       'class_id', 'student_id', 'semseter', 'verified_at',
+       'class_id', 'student_id', 'semester', 'verified_at',
         'attendance', 'absent',
         'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4',
         'mid_exam', 'final_exam',

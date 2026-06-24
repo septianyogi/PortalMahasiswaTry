@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\ClassAttended;
+use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
 
 class GradeService
 {
@@ -25,20 +27,23 @@ class GradeService
     /**
      * Show all class Attended with grade detail
      */
-    public function showDetail(int $classId, int $studentId)
+    public function showGradeDetail()
     {
-        try {
-            $grade = ClassAttended::with('class:id,code,name')
-                ->where('class_id', $classId)
-                ->where('student_id', $studentId)
-                ->select('id', 'class_id', 'student_id', 'final_score', 'letter_grade', 'gpa',
-                'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4', 'mid_exam', 'final_exam')
-                ->get();
+        $userId = Auth::user()->id;
+        $student = Student::where('user_id', $userId)->first();
 
-            return $grade;
-        } catch (\Throwable $th) {
-            throw $th;
+        if (!$student) {
+            throw new \Exception('Student Not Found', 404);
         }
+
+        return ClassAttended::with('class:id,code,name')
+            ->where('student_id', $student->id)
+            ->select(
+                'id', 'class_id', 'student_id', 'final_score', 'letter_grade', 'gpa',
+                'assignment_1', 'assignment_2', 'assignment_3', 'assignment_4',
+                'mid_exam', 'final_exam'
+            )
+            ->get(); // ← selalu return collection, tidak pernah null
     }
 
     public function showGpaDetail(int $classId, int $studentId)

@@ -63,6 +63,7 @@ class ClassAttendedService
             }
             ])
             ->where('student_id', $student->id)
+            ->where('semester', $student->semester)
             ->select('id', 'class_id', 'student_id')
             ->get();
     }

@@ -6,6 +6,7 @@ use App\Models\ClassAttended;
 use App\Models\Student;
 use App\Models\StudentSemester;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -15,6 +16,21 @@ use Illuminate\Support\Facades\Log;
  */
 class SemesterService
 {
+
+    public function getSemester()
+    {
+        try {
+            $user = Auth::user();
+            $student = Student::where('user_id', $user->id)->first();
+
+            $semester = StudentSemester::where('student_id', $student->id)
+                ->get();
+            
+                return $semester;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
     public function studentSemester(int $studentId)
     {

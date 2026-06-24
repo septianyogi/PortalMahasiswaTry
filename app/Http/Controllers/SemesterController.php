@@ -36,13 +36,14 @@ class SemesterController extends Controller
         ]);
     }
 
-    public function history($studentId)
+    public function getSemester()
     {
-        $student = Student::with('studentSemesters')->findOrFail($studentId);
-        return response()->json([
-            'student' => $student,
-            'semesters' => $student->studentSemesters,
-        ]);
+        try {
+            $semester = $this->semesterService->getSemester();
+            return $this->responseOk($semester, 'Data Retrieve Successfully');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode() ?: 400);
+        }
     }
 
     public function studentSemester(int $studentId)
