@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('quota');
             $table->integer('current_quota')->default(0);
             $table->string('room')->nullable();
-            $table->string('semester');
+            $table->integer('semester');
 
             // Bobot total (dalam persen, total 100)
             $table->float('weight_assignment')->default(40);

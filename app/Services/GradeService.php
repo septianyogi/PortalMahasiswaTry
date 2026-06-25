@@ -36,7 +36,7 @@ class GradeService
             throw new \Exception('Student Not Found', 404);
         }
 
-        return ClassAttended::with('class:id,code,name')
+        return ClassAttended::with('class:id,code,name,semester')
             ->where('student_id', $student->id)
             ->select(
                 'id', 'class_id', 'student_id', 'final_score', 'letter_grade', 'gpa',
