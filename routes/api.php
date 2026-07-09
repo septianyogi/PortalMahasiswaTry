@@ -16,7 +16,6 @@ Route::middleware('throttle:30,1')->group(function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
-
 Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::patch('/student/password/update', [AuthController::class, 'updatePassword']);
@@ -32,6 +31,7 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::get('classAttended/dosen/get/{classId}', [ClassAttendedController::class, 'viewDosenClassAttended']);
 
     Route::get('classAttended/get', [ClassAttendedController::class, 'viewClassAttended']);
+    Route::get('classAttended/unVerified/get', [ClassAttendedController::class, 'viewUnVerifiedClassAttended']);
     Route::post('classAttended/create/{classId}',[ClassAttendedController::class, 'create']);
     Route::patch('classAttended/update/{id}', [ClassAttendedController::class, 'update']);
     Route::delete('classAttended/delete/{id}', [ClassAttendedController::class, 'delete']);

@@ -68,6 +68,24 @@ class ClassAttendedService
             ->get();
     }
 
+    public function viewUnVerifiedClassAttended()
+    {
+        $userId = Auth::user()->id;
+        $student = Student::where('user_id', $userId)
+            ->first();
+
+        if (!$student) {
+            throw new \Exception('Student Not Found');
+        }
+
+
+        return ClassAttended::where('student_id', $student->id)
+            ->where('semester', $student->semester)
+            ->whereNull('verified_at')
+            ->select('id', 'class_id', 'student_id')
+            ->get();
+    }
+
 
     public function createClassAttended(int $classId)
     {

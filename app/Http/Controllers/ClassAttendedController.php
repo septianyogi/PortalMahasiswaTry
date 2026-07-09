@@ -39,6 +39,16 @@ class ClassAttendedController extends Controller
         }
     }
 
+    public function viewUnVerifiedClassAttended()
+    {
+        try {
+            $classAttended = $this->classAttendedService->viewUnVerifiedClassAttended();
+            return $this->responseOk($classAttended, 'Success');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage(), $th->getCode());
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
