@@ -7,6 +7,7 @@ use App\Http\Controllers\ClassAttendedController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\SemesterController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,11 @@ Route::middleware('throttle:30,1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+
 });
+    
+Route::post('/midtrans/webhook', [PaymentTransactionController::class, 'webhook']);
+
 
 Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -52,6 +57,14 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
     });
 
     Route::get('/student/semester/{studentId}', [SemesterController::class, 'studentSemester']);
+
+    Route::middleware(['check_blacklist'])->group(function () {
+
+    // Payment routes
+    Route::post('/paymentTransaction/create', [PaymentTransactionController::class, 'createTransaction']);
+    Route::get('/paymentTransaction/status/{orderId}', [PaymentTransactionController::class, 'checkStatus']);
+    Route::get('/paymentTransaction/history', [PaymentTransactionController::class, 'history']);
+    });
 });
 
 
