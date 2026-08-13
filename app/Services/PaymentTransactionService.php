@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Payment;
 use App\Models\PaymentTransaction;
 use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class PaymentTransactionService
         Config::$is3ds = config('midtrans.is_3ds');
     }
 
-    public function createTransaction(array $data) {
+    public function createTransaction(int $orderId) {
         $user = Auth::user();
 
         $student = Student::where('user_id', $user->id)->first();
@@ -33,24 +34,24 @@ class PaymentTransactionService
             throw new \Exception('Student Nto Found', 404);
         }
 
-        $orderId = 'INV-' . date('Ymd') . '-' . strtoupper(uniqid()) . '-' . $student->id;
+        $payment = Payment::where('order_id', $orderId)->first();
 
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => $data['amount'],
+                'gross_amount' => $payment->amount,
             ],
             'customer_details' => [
                 'first_name' => $student->name,
                 'email' => $student->email,
-                'phone' => $data['phone'] ?? '-',
+                'phone' => $payment['phone'] ?? '-',
             ],
             'item_details' => [
                 [
-                    'id' => $data['type'],
-                    'price' => $data['amount'],
+                    'id' => $payment['type'],
+                    'price' => $payment['amount'],
                     'quantity' => 1,
-                    'name' => $data['description'] ?? $data['type'],
+                    'name' => $payment['description'] ?? $payment['type'],
                 ]
             ],
         ];
@@ -64,9 +65,9 @@ class PaymentTransactionService
         $newTransaction = PaymentTransaction::create([
             'order_id' => $orderId,
             'student_id' => $student->id,
-            'type' => $data['type'],
-            'description' => $data['description'] ?? null,
-            'amount' => $data['amount'],
+            'type' => $payment['type'],
+            'description' => $payment['description'] ?? null,
+            'amount' => $payment['amount'],
             'status' => 'pending',
             'snap_token' => $transaction->token,
         ]);

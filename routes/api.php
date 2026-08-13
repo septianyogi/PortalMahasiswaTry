@@ -7,6 +7,7 @@ use App\Http\Controllers\ClassAttendedController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\SemesterController;
 use Illuminate\Support\Facades\Route;
@@ -60,8 +61,10 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
 
     Route::middleware(['check_blacklist'])->group(function () {
 
+
+    Route::post('/payment/create', [PaymentController::class, 'createPayment']);
     // Payment routes
-    Route::post('/paymentTransaction/create', [PaymentTransactionController::class, 'createTransaction']);
+    Route::post('/paymentTransaction/create/{orderId}', [PaymentTransactionController::class, 'createTransaction']);
     Route::get('/paymentTransaction/status/{orderId}', [PaymentTransactionController::class, 'checkStatus']);
     Route::get('/paymentTransaction/history', [PaymentTransactionController::class, 'history']);
     });

@@ -15,16 +15,10 @@ class PaymentTransactionController extends Controller
         $this->paymentService = $paymentService;
     }
     
-    public function createTransaction(Request $request)
+    public function createTransaction(int $orderId)
     {
         try {
-            $request->validate([
-                'amount' => 'required|integer|min:1000',
-                'type' => 'required|string',
-                'description' => 'nullable|string',
-            ]);
-
-            $result = $this->paymentService->createTransaction($request->all());
+            $result = $this->paymentService->createTransaction($orderId);
             return $this->responseOk($result, 'Transaction created successfully');
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage(), $th->getCode() ?: 500);
