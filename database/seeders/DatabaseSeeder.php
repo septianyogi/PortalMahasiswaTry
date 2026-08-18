@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ClassAttendedSeeder::class,
             ClassSessionSeeder::class,   // <- setelah ClassAttendedSeeder
             AttendanceSeeder::class,     // <- terakhir
+            paymentSeeder::class
         ]);
     }
 }

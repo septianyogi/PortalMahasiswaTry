@@ -36,4 +36,11 @@ class PaymentService
         return $newTransaction;
 
     }
+
+    public function getPayment() {
+        $user = Auth::user();
+
+        $payment = Payment::where('user_id', $user->id)->first();
+        return $payment;
+    }
 }

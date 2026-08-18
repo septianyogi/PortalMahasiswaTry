@@ -29,4 +29,14 @@ class PaymentController extends Controller
         }
     }
 
+    public function getPayment(Request $request)
+    {
+        try {
+            $result = $this->paymentService->getPayment();
+            return $this->responseOk($result, 'Success');
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage, $th->getCode ?: 500);
+        }
+    }
+
 }

@@ -63,6 +63,7 @@ Route::middleware(['auth:api', 'check_blacklist'])->group(function () {
 
 
     Route::post('/payment/create', [PaymentController::class, 'createPayment']);
+    Route::get('/payment/get', [PaymentController::class, 'getPayment']);
     // Payment routes
     Route::post('/paymentTransaction/create/{orderId}', [PaymentTransactionController::class, 'createTransaction']);
     Route::get('/paymentTransaction/status/{orderId}', [PaymentTransactionController::class, 'checkStatus']);
